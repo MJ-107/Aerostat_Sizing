@@ -11,7 +11,7 @@ clc
 
 %% Create and plot different balloon shapes for desired size
 
-run('spheroidInputs.m');
+run('spheroidInputs.m'); % Run inputs file for spheroid plotting parameters
 
 % Create mesh
 phi = linspace(0, 2*pi, 50); % Angle from +ve z-axis (azimuth)
@@ -33,6 +33,16 @@ for i = 1:1:length(slenderness_ratio)
     y = b * sin(phi) .* sin(theta);
     z = a * cos(phi);
 
+    volume(i) = (4/3) * pi * a * b^2; % Get volume in m^3
+    e = sqrt(1 - (b^2 / a^2)); 
+    
+        if e == 0
+            % This is a sphere
+            surface_area(i) = 4 * pi * b^2;
+        else
+            surface_area(i) = 2 * pi * b^2 * (1 + (a / (b * e)) * asin(e));
+        end
+
     plotSpheroids(x, y, z, i, rows, cols, slenderness_ratio(i));
 end
 
@@ -40,11 +50,14 @@ sgtitle('Prolate Spheroids with Different Slenderness Ratios');
 
 %% Input desired parameters
 
-inputs.payloadWeight = 5; % in kgs
-inputs.tetherWeight = 0.1; % in kgs/m
-inputs.Alt = 500; % in ms
+% inputs.payloadWeight = 5; % in kgs
+% inputs.tetherWeight = 0.1; % in kgs/m
+% inputs.Alt = 500; % in ms
+% 
+% tetherWeight = inputs.tetherWeight * inputs.Alt; % in kgs
 
-tetherWeight = inputs.tetherWeight * inputs.Alt;
+
+
 
 
 
