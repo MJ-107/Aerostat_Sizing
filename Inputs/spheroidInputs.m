@@ -1,6 +1,4 @@
-% spheroidInputs.m
-% ----------------
-% Inputs for spheroid plotting
+% *** Inputs for spheroid plotting ***
 
 % Slenderness ratio refers to the length/max diameter of the sheroid shape
 % a = semi-major axis (length) -> z-axis

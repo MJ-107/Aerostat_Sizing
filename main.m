@@ -34,13 +34,15 @@ for i = 1:1:length(slenderness_ratio)
     z = a * cos(phi);
 
     volume(i) = (4/3) * pi * a * b^2; % Get volume in m^3
-    e = sqrt((b^2-a^2) / b^2);
+    e = sqrt((b^2-a^2) / b^2); % Get eccentricity of prolate shperoid
     
         if e == 0
             % This is a sphere
-            surface_area(i) = 4 * pi * b^2;
+            surface_area(i) = 4 * pi * b^2; 
+            % Use formula for SA of a sphere
         else
-            surface_area(i) = 2 * pi * b^2 * (1 + (a / (b * e)) * asin(e));
+            surface_area(i) = 2 * pi * b^2 * (1 + (a / (b * e)) * asin(e)); 
+            % Use formula for SA of an ellipsoid
         end
 
     plotSpheroids(x, y, z, i, rows, cols, slenderness_ratio(i));
