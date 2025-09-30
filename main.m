@@ -50,7 +50,9 @@ end
 
 sgtitle('Prolate Spheroids with Different Slenderness Ratios');
 
-%% Guess weight based on surface area material, tether weight and 
+%% Guess weight based on surface area material, tether weight and
+
+library = createMaterialLibrary();
 
 run('missionInputs.m') % Run inputs file for mission parameters
 
