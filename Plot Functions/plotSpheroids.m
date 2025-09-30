@@ -1,10 +1,10 @@
 function plotSpheroids(x, y, z, i, rows, cols, ratio)
 
 % Inputs:
-%   x, y, z   - Coordinates of the spheroid surface
-%   i         - Index of the subplot
-%   rows, cols - Subplot grid dimensions
-%   ratio     - Slenderness ratio (for title)
+%   x, y, z     - Coordinates of the spheroid surface
+%   i           - Index of the subplot
+%   rows, cols  - Subplot grid dimensions
+%   ratio       - Slenderness ratio (for title)
     
     subplot(rows, cols, i);
     surf(x, y, z, 'EdgeColor', 'none');

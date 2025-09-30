@@ -22,7 +22,7 @@ theta = linspace(0, pi, 50); % Angle from +ve x-axis (polar)
 [cols, rows] = getSubplotGrid(length(slenderness_ratio));
 
 figure(1); % Initialize figure
-colormap turbo
+colormap turbo % Specify color map
 
 for i = 1:1:length(slenderness_ratio)
 
@@ -34,7 +34,7 @@ for i = 1:1:length(slenderness_ratio)
     z = a * cos(phi);
 
     volume(i) = (4/3) * pi * a * b^2; % Get volume in m^3
-    e = sqrt(1 - (b^2 / a^2)); 
+    e = sqrt((b^2-a^2) / b^2);
     
         if e == 0
             % This is a sphere
@@ -47,6 +47,10 @@ for i = 1:1:length(slenderness_ratio)
 end
 
 sgtitle('Prolate Spheroids with Different Slenderness Ratios');
+
+%% Guess weight based on surface area material, tether weight and 
+
+run('missionInputs.m') % Run inputs file for mission parameters
 
 %% Input desired parameters
 
