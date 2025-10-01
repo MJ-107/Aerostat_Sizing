@@ -1,12 +1,20 @@
 function library = createMaterialLibrary()
     % Envelope materials
-    envelope(1) = envelopeMaterial('Steel', 45.5, 'https://example.com/steel');
-    envelope(2) = envelopeMaterial('Aluminum', 15.3, 'https://example.com/aluminum');
-    envelope(3) = envelopeMaterial('Titanium', 20.1, 'https://example.com/titanium');
+    % Input envelope(x) = envelopeMaterial('A', B, 'C')
+    % A = title of material (string)
+    % B = weight in kg per m^2
+    % C = link to specification page (string)
+    envelope(1) = envelopeMaterial('Envelope Mat 1', 1.6, 'https://example.com/mat1');
+    envelope(2) = envelopeMaterial('Envelope Mat 2', 3.1, 'https://example.com/mat2');
+    envelope(3) = envelopeMaterial('Envelope Mat 3', 4.0, 'https://example.com/mat3');
 
-    % Sealant materials
-    tether(1) = tetherMaterial('Silicone Sealant', 10.0, 'https://example.com/silicone');
-    tether(2) = tetherMaterial('Polyurethane Sealant', 8.5, 'https://example.com/polyurethane');
+    % Tether materials
+    % Input tether(x) = tetherMaterial('A', B, 'C')
+    % A = title of material (string)
+    % B = weight in kg per m^2
+    % C = link to specification page (string)
+    tether(1) = tetherMaterial('Tether Mat 1', 10.0, 'https://example.com/mat1');
+    tether(2) = tetherMaterial('Tether Mat 2', 8.5, 'https://example.com/mat2');
 
     % Combine into a library struct
     library.Envelope = envelope;
