@@ -11,20 +11,20 @@ clc
 
 %% Create and plot different balloon shapes for desired size
 
-run('spheroidInputs.m'); % Run inputs file for spheroid plotting parameters
+run('spheroidInitializationInputs.m'); % Run inputs file for spheroid plotting parameters
 
 % Create mesh
-phi = linspace(0, 2*pi, 50); % Angle from +ve z-axis (azimuth)
-theta = linspace(0, pi, 50); % Angle from +ve x-axis (polar)
-[theta, phi] = meshgrid(theta, phi);
+mesh.phi = linspace(0, 2*pi, 50); % Angle from +ve z-axis (azimuth)
+mesh.theta = linspace(0, pi, 50); % Angle from +ve x-axis (polar)
+[mesh.theta, mesh.phi] = meshgrid(mesh.theta, mesh.phi);
 
 % Dynamic subplot tile layout
-[cols, rows] = getSubplotGrid(length(slenderness_ratio));
+[cols, rows] = getSubplotGrid(length(spheroidInputs.slenderness_ratio));
 
 figure(1); % Initialize figure
 colormap turbo % Specify color map
 
-for i = 1:1:length(slenderness_ratio)
+for i = 1:1:length(spheroidInputs.slenderness_ratio)
 
     a = slenderness_ratio(i) * b;
 
