@@ -1,4 +1,13 @@
 function library = createMaterialLibrary()
+
+    % Lifting Gas
+    % Input gas(x) = tetherMaterial('A', B, 'C')
+    % A = title of gas (string)
+    % B = weight in kg per m^3 (volumetric weight)
+    % C = link to specification page (string)
+    gas(1) = liftingGas('Helium', 10.0, 'https://example.com/mat1');
+    gas(2) = liftingGas('Hydrogen', 8.5, 'https://example.com/mat2');
+
     % Envelope materials
     % Input envelope(x) = envelopeMaterial('A', B, 'C')
     % A = title of material (string)
@@ -17,6 +26,7 @@ function library = createMaterialLibrary()
     tether(2) = tetherMaterial('Tether Mat 2', 8.5, 'https://example.com/mat2');
 
     % Combine into a library struct
+    library.LiftingGas = gas;
     library.Envelope = envelope;
     library.Tether = tether;
 end
