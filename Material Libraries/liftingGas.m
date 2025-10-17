@@ -1,14 +1,14 @@
 classdef liftingGas
     properties
-        Name                   % Name of material
-        WeightperCubicMeter    % In kgs/m^3
-        Link                   % String to link with material
+        Name       % Name of material
+        Density    % In kgs/m^3
+        Link       % String to link with material
     end
 
     methods
-        function obj = liftingGas(name, WeightperCubicMeter, Link)
-            obj.Name = name;
-            obj.WeightperCubicMeter = WeightperCubicMeter;
+        function obj = liftingGas(Name, Density, Link)
+            obj.Name = Name;
+            obj.Density = Density;
             obj.Link = Link;
         end
 

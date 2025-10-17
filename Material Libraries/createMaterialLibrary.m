@@ -3,10 +3,10 @@ function library = createMaterialLibrary()
     % Lifting Gas
     % Input gas(x) = tetherMaterial('A', B, 'C')
     % A = title of gas (string)
-    % B = weight in kg per m^3 (volumetric weight)
+    % B = density kg per m^3
     % C = link to specification page (string)
-    gas(1) = liftingGas('Helium', 10.0, 'https://example.com/mat1');
-    gas(2) = liftingGas('Hydrogen', 8.5, 'https://example.com/mat2');
+    gas(1) = liftingGas('Helium', 0.1785, 'https://example.com/mat1');
+    gas(2) = liftingGas('Hydrogen', 0.0827, 'https://example.com/mat2');
 
     % Envelope materials
     % Input envelope(x) = envelopeMaterial('A', B, 'C')
