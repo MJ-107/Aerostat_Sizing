@@ -64,6 +64,40 @@ library = createMaterialLibrary();
 
 run('missionInputs.m') % Run inputs file for mission parameters
 
+% % Lifting gas weight
+% for i = 1:1:length(library.LiftingGas)
+%     disp(1)
+% end
+
+% Preallocate arrays
+% 4D matrix to store total weights
+% Dimensions: (slenderness ratio, gas, envelope, tether)
+total_weight = zeros(length(spheroidInputs.slenderness_ratio), ...
+    numel(library.LiftingGas), numel(library.Envelope), ...
+    numel(library.Tether));
+
+%% 
+for i = 1:1:length(spheroidInputs.slenderness_ratio)
+    % --- Weight Calculations ---
+    for g = 1:1:numel(library.LiftingGas)
+        for e_idx = 1:1:numel(library.Envelope)
+            for t = 1:1:numel(library.Tether)
+                % Retrieve properties from the class objects
+                rho_gas = library.LiftingGas(g).Density; % kg/m^3
+                rho_env = library.Envelope(e_idx).WeightperMeter; % kg/m^2
+                rho_tether = library.Tether(t).WeightperMeter; % kg/m^2 
+
+                % Compute individual weights
+                W_env = rho_env * surface_area(i);
+                W_gas = rho_gas * volume(i);
+                W_tether = rho_tether * surface_area(i); 
+                % Total weight
+                total_weight(i, g, e_idx, t) = W_env + W_gas + W_tether;
+            end
+        end
+    end
+end
+
 %% Input desired parameters
 
 
