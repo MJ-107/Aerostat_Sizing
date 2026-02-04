@@ -15,8 +15,8 @@ clc
 run('spheroidInitializationInputs.m'); 
 
 % Create mesh
-mesh.phi = linspace(0, 2*pi, 50); % Angle from +ve z-axis (azimuth)
-mesh.theta = linspace(0, pi, 50); % Angle from +ve x-axis (polar)
+mesh.phi = linspace(0, 2*pi, 50); % Angle from +ve z-axis (polar)
+mesh.theta = linspace(0, pi, 50); % Angle from +ve x-axis (azimuth)
 [mesh.theta, mesh.phi] = meshgrid(mesh.theta, mesh.phi);
 
 % Dynamic subplot tile layout
@@ -27,28 +27,32 @@ colormap turbo % Specify color map
 
 for i = 1:1:length(spheroidInputs.slenderness_ratio)
 
-    spheroidInputs.a = spheroidInputs.slenderness_ratio(i) * ...
-    spheroidInputs.b;
+    % a is major semi-axis (axis of symmetry, alinged w/ z)
+    % b is minor semi-axis (equatorial plane, x/y constant)
+    % b is constant specified in initialization script
+
+    spheroidInputs.c = spheroidInputs.slenderness_ratio(i) * ...
+    spheroidInputs.a; 
 
     % Parametric equations for prolate spheroid
-    plotSpheroid.x = spheroidInputs.b * sin(mesh.phi) .* cos(mesh.theta);
-    plotSpheroid.y = spheroidInputs.b * sin(mesh.phi) .* sin(mesh.theta);
-    plotSpheroid.z = spheroidInputs.a * cos(mesh.phi);
+    plotSpheroid.x = spheroidInputs.a * sin(mesh.phi) .* cos(mesh.theta);
+    plotSpheroid.y = spheroidInputs.a * sin(mesh.phi) .* sin(mesh.theta);
+    plotSpheroid.z = spheroidInputs.c * cos(mesh.phi);
 
      % Get volume in m^3
-    volume(i) = (4/3) * pi * spheroidInputs.a * spheroidInputs.b^2;
+    volume(i) = (4/3) * pi * spheroidInputs.c * spheroidInputs.a^2;
     
     % Get eccentricity of prolate shperoid
-    e = sqrt((spheroidInputs.b^2-spheroidInputs.a^2) / spheroidInputs.b^2); 
+    e = sqrt(1 - (spheroidInputs.a^2 / spheroidInputs.c^2));
         
     if e == 0
             % This is a sphere
-            surface_area(i) = 4 * pi * spheroidInputs.b^2; 
+            surface_area(i) = 4 * pi * spheroidInputs.a^2; 
             % Use formula for SA of a sphere
         
         else
-            surface_area(i) = 2 * pi * spheroidInputs.b^2 * (1 + ...
-                (spheroidInputs.a / (spheroidInputs.b * e)) * asin(e)); 
+            surface_area(i) = 2 * pi * spheroidInputs.a^2 * (1 + ...
+                (spheroidInputs.c / (spheroidInputs.a * e)) * asin(e)); 
             % Use formula for SA of an ellipsoid
     end
 
