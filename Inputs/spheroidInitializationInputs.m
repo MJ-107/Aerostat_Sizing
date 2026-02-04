@@ -7,6 +7,6 @@
 % A slenderness ratio of 1 refers to a perfect sphere
 
 spheroidInputs.slenderness_ratio = linspace(1, 6, 6);  % Slenderness ratio (lambda)
-spheroidInputs.b = 1;                                  % Fixed semi-axis (x/y)
+spheroidInputs.a = 1;                                  % Fixed semi-axis (x/y)
 spheroidInputs.phi_points = 50;                        % Number of phi points (azimuth)
 spheroidInputs.theta_points = 50;                      % Number of theta points (polar)
