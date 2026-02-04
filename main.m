@@ -27,9 +27,9 @@ colormap turbo % Specify color map
 
 for i = 1:1:length(spheroidInputs.slenderness_ratio)
 
-    % a is major semi-axis (axis of symmetry, alinged w/ z)
-    % b is minor semi-axis (equatorial plane, x/y constant)
-    % b is constant specified in initialization script
+    % c is major semi-axis (axis of symmetry, alinged w/ z)
+    % a is minor semi-axis (equatorial plane, x/y constant)
+    % a is constant specified in initialization script
 
     spheroidInputs.c = spheroidInputs.slenderness_ratio(i) * ...
     spheroidInputs.a; 
