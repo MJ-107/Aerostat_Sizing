@@ -75,7 +75,6 @@ total_weight = zeros(length(spheroidInputs.slenderness_ratio), ...
     numel(library.LiftingGas), numel(library.Envelope), ...
     numel(library.Tether));
 
-%% 
 for r = 1:1:length(spheroidInputs.slenderness_ratio)
     % --- Weight Calculations ---
     for g = 1:1:numel(library.LiftingGas)
@@ -98,5 +97,28 @@ for r = 1:1:length(spheroidInputs.slenderness_ratio)
 end
 
 %% Input desired parameters
+
+
+
+% semiRigid = input(['Is the aerostat rigid, semi-rigid, or non-rigid?' ...
+%     ' input case 1, 2, or 3, respectively ']);
+% 
+% switch semiRigid
+%     case 1
+%         disp('Rigid aerostat');
+%         %add weight params for case
+% 
+%     case 2
+%         disp('Semi-Rigid aerostat');
+%         %add weight params for case
+% 
+%     case 3
+%         disp('Non-Rigid aerostat');
+%         %add weight params for case
+% 
+%     otherwise
+%         disp('Invalid input. Please enter true or false.');
+% end
+
 
 
