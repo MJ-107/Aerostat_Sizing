@@ -25,13 +25,13 @@ mesh.theta = linspace(0, pi, 50); % Angle from +ve x-axis (azimuth)
 figure(1); % Initialize figure
 colormap turbo % Specify color map
 
-for i = 1:1:length(spheroidInputs.slenderness_ratio)
+for r = 1:1:length(spheroidInputs.slenderness_ratio)
 
     % c is major semi-axis (axis of symmetry, alinged w/ z)
     % a is minor semi-axis (equatorial plane, x/y constant)
-    % a is constant specified in initialization script
+    % a is constant, specified in initialization script
 
-    spheroidInputs.c = spheroidInputs.slenderness_ratio(i) * ...
+    spheroidInputs.c = spheroidInputs.slenderness_ratio(r) * ...
     spheroidInputs.a; 
 
     % Parametric equations for prolate spheroid
@@ -40,24 +40,24 @@ for i = 1:1:length(spheroidInputs.slenderness_ratio)
     plotSpheroid.z = spheroidInputs.c * cos(mesh.phi);
 
      % Get volume in m^3
-    volume(i) = (4/3) * pi * spheroidInputs.c * spheroidInputs.a^2;
+    volume(r) = (4/3) * pi * spheroidInputs.c * spheroidInputs.a^2;
     
     % Get eccentricity of prolate shperoid
     e = sqrt(1 - (spheroidInputs.a^2 / spheroidInputs.c^2));
         
     if e == 0
             % This is a sphere
-            surface_area(i) = 4 * pi * spheroidInputs.a^2; 
             % Use formula for SA of a sphere
+            surface_area(r) = 4 * pi * spheroidInputs.a^2; 
         
-        else
-            surface_area(i) = 2 * pi * spheroidInputs.a^2 * (1 + ...
-                (spheroidInputs.c / (spheroidInputs.a * e)) * asin(e)); 
+    else
             % Use formula for SA of an ellipsoid
+            surface_area(r) = 2 * pi * spheroidInputs.a^2 * (1 + ...
+                (spheroidInputs.c / (spheroidInputs.a * e)) * asin(e));
     end
 
     plotSpheroids(plotSpheroid.x, plotSpheroid.y, plotSpheroid.z, ...
-        i, rows, cols, spheroidInputs.slenderness_ratio(i));
+        r, rows, cols, spheroidInputs.slenderness_ratio(r));
 end
 
 sgtitle('Prolate Spheroids with Different Slenderness Ratios');
@@ -68,11 +68,6 @@ library = createMaterialLibrary();
 
 run('missionInputs.m') % Run inputs file for mission parameters
 
-% % Lifting gas weight
-% for i = 1:1:length(library.LiftingGas)
-%     disp(1)
-% end
-
 % Preallocate arrays
 % 4D matrix to store total weights
 % Dimensions: (slenderness ratio, gas, envelope, tether)
@@ -81,22 +76,22 @@ total_weight = zeros(length(spheroidInputs.slenderness_ratio), ...
     numel(library.Tether));
 
 %% 
-for i = 1:1:length(spheroidInputs.slenderness_ratio)
+for r = 1:1:length(spheroidInputs.slenderness_ratio)
     % --- Weight Calculations ---
     for g = 1:1:numel(library.LiftingGas)
-        for e_idx = 1:1:numel(library.Envelope)
+        for e = 1:1:numel(library.Envelope)
             for t = 1:1:numel(library.Tether)
                 % Retrieve properties from the class objects
                 rho_gas = library.LiftingGas(g).Density; % kg/m^3
-                rho_env = library.Envelope(e_idx).WeightperMeter; % kg/m^2
+                rho_env = library.Envelope(e).WeightperMeter; % kg/m^2
                 rho_tether = library.Tether(t).WeightperMeter; % kg/m^2 
 
                 % Compute individual weights
-                W_env = rho_env * surface_area(i);
-                W_gas = rho_gas * volume(i);
-                W_tether = rho_tether * surface_area(i); 
+                W_env = rho_env * surface_area(r);
+                W_gas = rho_gas * volume(r);
+                W_tether = rho_tether * surface_area(r); 
                 % Total weight
-                total_weight(i, g, e_idx, t) = W_env + W_gas + W_tether;
+                total_weight(r, g, e, t) = W_env + W_gas + W_tether;
             end
         end
     end
