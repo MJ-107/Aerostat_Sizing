@@ -15,12 +15,8 @@ clc
 run('spheroidInitializationInputs.m'); 
 
 % == Create mesh ==
-% Angle from +ve z-axis (polar)
-mesh.phi = linspace(0, 2*pi, spheroidInputs.phi_points);
-% Angle from +ve x-axis (azimuth)
-mesh.theta = linspace(0, pi, spheroidInputs.theta_points); 
-% Set grid
-[mesh.theta, mesh.phi] = meshgrid(mesh.theta, mesh.phi);
+mesh = computeMesh(spheroidInputs.phi_points, ...
+    spheroidInputs.theta_points);
 
 % == Create Plot ==
 % Initialize plot tiles
@@ -48,7 +44,7 @@ sgtitle('Prolate Spheroids with Different Slenderness Ratios');
 
 %% Calculate Volume and Surface Area
 
-[volume, surface_area] = ComputeSAandV(spheroidInputs);
+[volume, surface_area] = computeSAandV(spheroidInputs);
 
 library = createMaterialLibrary();
 
@@ -100,28 +96,3 @@ for i = 2:1:length(spheroids)
 end
 
 %% Input desired parameters
-
-
-
-% semiRigid = input(['Is the aerostat rigid, semi-rigid, or non-rigid?' ...
-%     ' input case 1, 2, or 3, respectively ']);
-% 
-% switch semiRigid
-%     case 1
-%         disp('Rigid aerostat');
-%         %add weight params for case
-% 
-%     case 2
-%         disp('Semi-Rigid aerostat');
-%         %add weight params for case
-% 
-%     case 3
-%         disp('Non-Rigid aerostat');
-%         %add weight params for case
-% 
-%     otherwise
-%         disp('Invalid input. Please enter true or false.');
-% end
-
-
-

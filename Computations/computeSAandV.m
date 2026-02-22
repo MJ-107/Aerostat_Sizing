@@ -1,4 +1,4 @@
-function [volume, surface_area] = ComputeSAandV(spheroidInputs)
+function [volume, surface_area] = computeSAandV(spheroidInputs)
 
 for r = 1:1:length(spheroidInputs.slenderness_ratio)
 
