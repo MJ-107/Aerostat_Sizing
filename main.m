@@ -19,28 +19,8 @@ mesh = computeMesh(spheroidInputs.phi_points, ...
     spheroidInputs.theta_points);
 
 % == Create Plot ==
-% Initialize plot tiles
-[plotSpheroid.tile_cols, plotSpheroid.tile_rows] = ...
-getSubplotGrid(length(spheroidInputs.slenderness_ratio));
-
-figure(1); % Initialize figure
-colormap turbo % Specify color map
-
-% Loop through slenderness ratios and plot every spheroid
-for r = 1:1:length(spheroidInputs.slenderness_ratio)
-    spheroidInputs.c = spheroidInputs.slenderness_ratio(r) * ...
-    spheroidInputs.a; 
-    % Parametric equations for prolate spheroid
-    plotSpheroid.x = spheroidInputs.a * sin(mesh.phi) .* cos(mesh.theta);
-    plotSpheroid.y = spheroidInputs.a * sin(mesh.phi) .* sin(mesh.theta);
-    plotSpheroid.z = spheroidInputs.c * cos(mesh.phi);
-    % Use plotting function
-    plotSpheroids(plotSpheroid.x, plotSpheroid.y, plotSpheroid.z, ...
-     r, plotSpheroid.tile_rows, plotSpheroid.tile_cols, spheroidInputs.slenderness_ratio(r));
-end
-
-% Add plot title
-sgtitle('Prolate Spheroids with Different Slenderness Ratios');
+plotSpheroids(spheroidInputs, mesh, ...
+    'Prolate Spheroids with Different Slenderness Ratios');
 
 %% Calculate Volume and Surface Area
 
