@@ -9,38 +9,46 @@ clear all
 clf
 clc
 
-%% Create and plot different balloon shapes for desired size
+%% Create + plot different balloon shapes for desired size
 
-% Run inputs file for spheroid plotting parameters
+% == Run inputs file for spheroid plotting parameters ==
 run('spheroidInitializationInputs.m'); 
 
-% Create mesh
-mesh.phi = linspace(0, 2*pi, 50); % Angle from +ve z-axis (polar)
-mesh.theta = linspace(0, pi, 50); % Angle from +ve x-axis (azimuth)
+% == Create mesh ==
+% Angle from +ve z-axis (polar)
+mesh.phi = linspace(0, 2*pi, spheroidInputs.phi_points);
+% Angle from +ve x-axis (azimuth)
+mesh.theta = linspace(0, pi, spheroidInputs.theta_points); 
+% Set grid
 [mesh.theta, mesh.phi] = meshgrid(mesh.theta, mesh.phi);
 
-[volume, surface_area] = ComputeSAandV(spheroidInputs);
-
-% Dynamic subplot tile layout
-[cols, rows] = getSubplotGrid(length(spheroidInputs.slenderness_ratio));
+% == Create Plot ==
+% Initialize plot tiles
+[plotSpheroid.tile_cols, plotSpheroid.tile_rows] = ...
+getSubplotGrid(length(spheroidInputs.slenderness_ratio));
 
 figure(1); % Initialize figure
 colormap turbo % Specify color map
 
-for r=1:1:length(spheroidInputs.slenderness_ratio)
+% Loop through slenderness ratios and plot every spheroid
+for r = 1:1:length(spheroidInputs.slenderness_ratio)
     spheroidInputs.c = spheroidInputs.slenderness_ratio(r) * ...
     spheroidInputs.a; 
-        % Parametric equations for prolate spheroid
+    % Parametric equations for prolate spheroid
     plotSpheroid.x = spheroidInputs.a * sin(mesh.phi) .* cos(mesh.theta);
     plotSpheroid.y = spheroidInputs.a * sin(mesh.phi) .* sin(mesh.theta);
     plotSpheroid.z = spheroidInputs.c * cos(mesh.phi);
-
-     plotSpheroids(plotSpheroid.x, plotSpheroid.y, plotSpheroid.z, ...
-     r, rows, cols, spheroidInputs.slenderness_ratio(r));
+    % Use plotting function
+    plotSpheroids(plotSpheroid.x, plotSpheroid.y, plotSpheroid.z, ...
+     r, plotSpheroid.tile_rows, plotSpheroid.tile_cols, spheroidInputs.slenderness_ratio(r));
 end
+
+% Add plot title
 sgtitle('Prolate Spheroids with Different Slenderness Ratios');
 
-%% Guess weight based on surface area material, tether weight and
+%% Calculate Volume and Surface Area
+
+[volume, surface_area] = ComputeSAandV(spheroidInputs);
 
 library = createMaterialLibrary();
 
