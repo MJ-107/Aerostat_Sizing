@@ -19,47 +19,25 @@ mesh.phi = linspace(0, 2*pi, 50); % Angle from +ve z-axis (polar)
 mesh.theta = linspace(0, pi, 50); % Angle from +ve x-axis (azimuth)
 [mesh.theta, mesh.phi] = meshgrid(mesh.theta, mesh.phi);
 
+[volume, surface_area] = ComputeSAandV(spheroidInputs);
+
 % Dynamic subplot tile layout
 [cols, rows] = getSubplotGrid(length(spheroidInputs.slenderness_ratio));
 
 figure(1); % Initialize figure
 colormap turbo % Specify color map
 
-for r = 1:1:length(spheroidInputs.slenderness_ratio)
-
-    % c is major semi-axis (axis of symmetry, alinged w/ z)
-    % a is minor semi-axis (equatorial plane, x/y constant)
-    % a is constant, specified in initialization script
-
+for r=1:1:length(spheroidInputs.slenderness_ratio)
     spheroidInputs.c = spheroidInputs.slenderness_ratio(r) * ...
     spheroidInputs.a; 
-
-    % Parametric equations for prolate spheroid
+        % Parametric equations for prolate spheroid
     plotSpheroid.x = spheroidInputs.a * sin(mesh.phi) .* cos(mesh.theta);
     plotSpheroid.y = spheroidInputs.a * sin(mesh.phi) .* sin(mesh.theta);
     plotSpheroid.z = spheroidInputs.c * cos(mesh.phi);
 
-     % Get volume in m^3
-    volume(r) = (4/3) * pi * spheroidInputs.c * spheroidInputs.a^2;
-    
-    % Get eccentricity of prolate shperoid
-    e = sqrt(1 - (spheroidInputs.a^2 / spheroidInputs.c^2));
-        
-    if e == 0
-            % This is a sphere
-            % Use formula for SA of a sphere
-            surface_area(r) = 4 * pi * spheroidInputs.a^2; 
-        
-    else
-            % Use formula for SA of an ellipsoid
-            surface_area(r) = 2 * pi * spheroidInputs.a^2 * (1 + ...
-                (spheroidInputs.c / (spheroidInputs.a * e)) * asin(e));
-    end
-
-    plotSpheroids(plotSpheroid.x, plotSpheroid.y, plotSpheroid.z, ...
-        r, rows, cols, spheroidInputs.slenderness_ratio(r));
+     plotSpheroids(plotSpheroid.x, plotSpheroid.y, plotSpheroid.z, ...
+     r, rows, cols, spheroidInputs.slenderness_ratio(r));
 end
-
 sgtitle('Prolate Spheroids with Different Slenderness Ratios');
 
 %% Guess weight based on surface area material, tether weight and
