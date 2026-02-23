@@ -81,20 +81,30 @@ for i = 2:1:length(spheroids)
    end
 end
 
-% Find spheroid with smallest surface area
+%% Filter in order of priority criteria
 
-minSA = [spheroids(1).surfaceArea, 0]; % initialize with first value
+% Filter to only spheroids with the smallest surface area
+candidates = filter_smallestSA(spheroids);
 
-i = 2;
-while i <= length(spheroids)
 
-    if spheroids(i).surfaceArea < minSA
-        minSA = [spheroids(i).surfaceArea, i];
-    end
 
-    i = i + 1;
 
-end
+
+
+% % Find spheroid with smallest surface area
+% 
+% minSA = [spheroids(1).surfaceArea, 0]; % initialize with first value
+% 
+% i = 2;
+% while i <= length(spheroids)
+% 
+%     if spheroids(i).surfaceArea < minSA
+%         minSA = [spheroids(i).surfaceArea, i];
+%     end
+% 
+%     i = i + 1;
+% 
+% end
 
 
         % % Find smallest SA
