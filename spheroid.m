@@ -14,11 +14,10 @@ classdef spheroid
         weight_gas double
 
         % Processed data 
-            % Col 1: value
-            % Col 2-4: index
+        % Col 1: value
+        % Col 2-4: index
         lowest_total_weight double = [0];
         lowest_total_weight_idx double = [0 0 0];
-
 
     end
     
