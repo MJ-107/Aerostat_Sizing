@@ -81,9 +81,42 @@ for i = 2:1:length(spheroids)
    end
 end
 
+% Find spheroid with smallest surface area
+
+minSA = [spheroids(1).surfaceArea, 0]; % initialize with first value
+
+i = 2;
+while i <= length(spheroids)
+
+    if spheroids(i).surfaceArea < minSA
+        minSA = [spheroids(i).surfaceArea, i];
+    end
+
+    i = i + 1;
+
+end
 
 
-
+        % % Find smallest SA
+        % function obj = find_smallestSA(obj)
+        % 
+        %     obj.smallest_SA = [obj.surfaceArea(1,1,1)];
+        % 
+        %     e=1;
+        %     while e <= length(obj.surfaceArea(:,1,1))
+        %         t=1;
+        %         while t <= length(obj.surfaceArea(1,:,1))
+        %              g=1;
+        %             while g <= length(obj.surfaceArea(1,1,:))
+        %                 if obj.surfaceArea(e,t,g) < obj.smallest_SA
+        %                     obj.smallest_SA = [obj.surfaceArea(e,t,g), e, t, g];
+        %                 end
+        %                 g = g+1;
+        %             end
+        %             t = t+1;
+        %         end
+        %         e = e+1;
+        %     end
 
 
 
