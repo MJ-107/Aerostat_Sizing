@@ -33,7 +33,6 @@ library = createMaterialLibrary();
 % == Run mission inputs from input file == 
 run('missionInputs.m') % Run inputs file for mission parameters
 
-
 %% 
 
 % Preallocate arrays
@@ -42,7 +41,8 @@ weights.total_weight = zeros(numel(library.Envelope), ...
 
 for r = 1:1:length(spheroidInputs.slenderness_ratio)
     
-    spheroids(r) = spheroid(surface_area(r),volume(r),spheroidInputs.slenderness_ratio(r));
+    spheroids(r) = spheroid(surface_area(r),volume(r), ...
+        spheroidInputs.slenderness_ratio(r));
    
     % --- Weight Calculations ---
     for e = 1:1:numel(library.Envelope)
@@ -78,8 +78,18 @@ minWeight = spheroids(1).lowest_total_weight;
 for i = 2:1:length(spheroids)
    if spheroids(i).lowest_total_weight < minWeight
        minWeight = spheroids(i).lowest_total_weight;
-       disp(i)
    end
 end
+
+
+
+
+
+
+
+
+
+
+
 
 %% Input desired parameters
