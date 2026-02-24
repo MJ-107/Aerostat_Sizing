@@ -36,56 +36,78 @@ run('missionInputs.m') % Run inputs file for mission parameters
 %% 
 
 % Preallocate arrays
-weights.total_weight = zeros(numel(library.Envelope), ...
+
+total_weight = zeros(numel(spheroidInputs.slenderness_ratio),numel(library.Envelope), ...
+    numel(library.Tether), numel(library.LiftingGas));
+
+total_SA = zeros(numel(spheroidInputs.slenderness_ratio),numel(library.Envelope), ...
     numel(library.Tether), numel(library.LiftingGas));
 
 for r = 1:1:length(spheroidInputs.slenderness_ratio)
-    
-    spheroids(r) = spheroid(surface_area(r),volume(r), ...
-        spheroidInputs.slenderness_ratio(r));
    
     % --- Weight Calculations ---
-    for e = 1:1:numel(library.Envelope)
-        for t = 1:1:numel(library.Tether)
-            for g = 1:1:numel(library.LiftingGas)
-
-                % % Retrieve properties from the class objects
-                % rho_gas = library.LiftingGas(g).Density; % kg/m^3
-                % rho_tether = library.Tether(t).WeightperMeter; % kg/m^2
-                % rho_env = library.Envelope(e).WeightperMeter; % kg/m^2
+    for g = 1:1:numel(library.LiftingGas)
+        for e = 1:1:numel(library.Envelope)
+            for t = 1:1:numel(library.Tether)
 
                 % Compute individual weights
-                weights.W_env = library.Envelope(e).WeightperMeter * surface_area(r);
-                weights.W_tether = library.Tether(t).WeightperMeter * surface_area(r); 
-                weights.W_gas = library.LiftingGas(g).Density * volume(r);
+                W_gas = library.LiftingGas(g).Density * volume(r);
+                W_env = library.Envelope(e).WeightperMeter * surface_area(r);
+                W_tether = library.Tether(t).WeightperMeter * surface_area(r); 
+              
              
                 % Total weight
-                weights.total_weight(e,t,g) = weights.W_env +  weights.W_tether + weights.W_gas;
-                
-                spheroids(r).weight_envelope(e,t,g) = weights.W_env;
-                spheroids(r).weight_tether(e,t,g) = weights.W_tether;
-                spheroids(r).weight_gas(e,t,g) = weights.W_gas;
+                total_weight(r,g,e,t) = W_gas + W_env + W_tether;
+
+
+                % SA calculation
+                total_SA(r,g,e,t) = surface_area(r);
+               
             end
         end
     end
 
-    spheroids(r).weight = weights.total_weight;
-    spheroids(r) = find_lowestWeight(spheroids(r));
 end
 
-minWeight = spheroids(1).lowest_total_weight;
+% switch analysisDimension
+%     case 1 % 1D search
+%     case 2 % 2D search
+%     %case 3
+% end
 
-for i = 2:1:length(spheroids)
-   if spheroids(i).lowest_total_weight < minWeight
-       minWeight = spheroids(i).lowest_total_weight;
-   end
+
+figure(2)
+hold on 
+for r = 1:1:length(spheroidInputs.slenderness_ratio)
+   
+    for g = 1:1:numel(library.LiftingGas)
+        for e = 1:1:numel(library.Envelope)
+            for t = 1:1:numel(library.Tether)
+                scatter(total_SA(r,g,e,t),total_weight(r,g,e,t))
+                
+               
+            end
+        end
+    end
 end
+hold off
+
+
+
+
+% minWeight = spheroids(1).lowest_total_weight;
+% 
+% for i = 2:1:length(spheroids)
+%    if spheroids(i).lowest_total_weight < minWeight
+%        minWeight = spheroids(i).lowest_total_weight;
+%    end
+% end
 
 %% Filter in order of priority criteria
 
 % Filter to only spheroids with the smallest surface area
-candidates = filter_smallestSA(spheroids);
-
+% candidates = filter_smallestSA(spheroids);
+% candidates = filter_lowestTotalWeight
 
 
 
