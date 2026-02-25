@@ -73,6 +73,8 @@ end
 %     %case 3
 % end
 
+colors = lines(numel(library.LiftingGas)); 
+markers = {'*','+','x','^','h','o'}; 
 
 figure(2)
 hold on 
@@ -81,8 +83,7 @@ for r = 1:1:length(spheroidInputs.slenderness_ratio)
     for g = 1:1:numel(library.LiftingGas)
         for e = 1:1:numel(library.Envelope)
             for t = 1:1:numel(library.Tether)
-                scatter(total_SA(r,g,e,t),total_weight(r,g,e,t))
-                
+                scatter(total_SA(r,g,e,t),total_weight(r,g,e,t), 20, colors(g,:), markers{e});
                
             end
         end
@@ -91,4 +92,7 @@ end
 hold off
 
 
-
+% isPareto = paretofront([total_SA(:), total_weight(:)]);
+% 
+% SA_pareto = total_SA(isPareto);
+% W_pareto  = total_weight(isPareto);
