@@ -12,7 +12,7 @@ for r = 1:1:length(spheroidInputs.slenderness_ratio)
     spheroidInputs.c = spheroidInputs.slenderness_ratio(r) * ...
     spheroidInputs.a; 
 
-    % Parametric equations for prolate spheroid
+    % Equations for prolate spheroid
     x = spheroidInputs.a * sin(mesh.phi) .* cos(mesh.theta);
     y = spheroidInputs.a * sin(mesh.phi) .* sin(mesh.theta);
     z = spheroidInputs.c * cos(mesh.phi);
@@ -22,6 +22,9 @@ for r = 1:1:length(spheroidInputs.slenderness_ratio)
     surf(x, y, z, 'EdgeColor', 'none');
     axis equal;
     title(['Slenderness Ratio: ', num2str(spheroidInputs.slenderness_ratio(r))])
+    xlabel('x');
+    ylabel('y');
+    zlabel('z');
     light; 
     lighting gouraud; 
     camlight headlight;
