@@ -60,6 +60,9 @@ for r = 1:1:length(spheroidInputs.slenderness_ratio)
 
                 % SA calculation
                 total_SA(r,g,e,t) = surface_area(r);
+
+                % Lift provided 
+                
                
             end
         end
